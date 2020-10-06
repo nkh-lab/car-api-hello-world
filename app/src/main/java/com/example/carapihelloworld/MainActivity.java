@@ -2,37 +2,27 @@ package com.example.carapihelloworld;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.car.Car;
+import android.car.VehiclePropertyIds;
+import android.car.hardware.CarSensorManager;
+import android.car.hardware.CarPropertyValue;
 import android.car.hardware.CarSensorEvent;
+import android.car.hardware.property.CarPropertyManager;
+
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.car.Car;
-import android.car.hardware.CarSensorManager;
 import android.util.Log;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private class SpeedListener implements CarSensorManager.OnSensorChangedListener {
-        public void onSensorChanged(CarSensorEvent var1) {
-            Log.d (TAG, "onSpeedChanged: " + var1.floatValues[0]);
-        }
-    };
-
-    private class GearListener implements CarSensorManager.OnSensorChangedListener {
-        public void onSensorChanged(CarSensorEvent var1) {
-            Log.d (TAG, "onGearChanged: " + var1.intValues[0]);
-        }
-    };
-
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
 
     private Car mCar;
     private CarSensorManager mCarSensorManager;
-
-    SpeedListener mSpeedListener;
-    GearListener mGearListener;
+    private CarPropertyManager mCarPropertyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +47,56 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCarApi() {
         mCar = Car.createCar(this);
-        mSpeedListener = new SpeedListener();
-        mGearListener = new GearListener();
 
+        initCarSensorManager();
+        initCarPropertyManager();
+    }
+
+    private void initCarSensorManager() {
         mCarSensorManager = (CarSensorManager) mCar.getCarManager(Car.SENSOR_SERVICE);
 
-        mCarSensorManager.registerListener(mSpeedListener, CarSensorManager.SENSOR_TYPE_CAR_SPEED, CarSensorManager.SENSOR_RATE_NORMAL);
-        mCarSensorManager.registerListener(mGearListener, CarSensorManager.SENSOR_TYPE_GEAR, CarSensorManager.SENSOR_RATE_NORMAL);
+        mCarSensorManager.registerListener(new CarSensorManager.OnSensorChangedListener() {
+            @Override
+            public void onSensorChanged(CarSensorEvent var1) {
+                Log.d(TAG, "CarSensorManager.onSpeedChanged: " + var1.floatValues[0]);
+            }
+        }, CarSensorManager.SENSOR_TYPE_CAR_SPEED, CarSensorManager.SENSOR_RATE_NORMAL);
+
+        mCarSensorManager.registerListener(new CarSensorManager.OnSensorChangedListener() {
+            @Override
+            public void onSensorChanged(CarSensorEvent var1) {
+                Log.d(TAG, "CarSensorManager.onGearChanged: " + var1.intValues[0]);
+            }
+        }, CarSensorManager.SENSOR_TYPE_GEAR, CarSensorManager.SENSOR_RATE_NORMAL);
+    }
+
+    private void initCarPropertyManager() {
+        mCarPropertyManager = (CarPropertyManager) mCar.getCarManager(Car.PROPERTY_SERVICE);
+
+        Log.d(TAG, "CarPropertyManager.CurrentGear: " + mCarPropertyManager.getIntProperty(VehiclePropertyIds.CURRENT_GEAR, 0));
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "CarPropertyManager.onGearChanged: " + carPropertyValue.getValue());
+            }
+
+            @Override
+            public void onErrorEvent(int i, int i1) {
+                Log.e(TAG, "CarPropertyManager.onGearChangedError");
+            }
+        }, VehiclePropertyIds.CURRENT_GEAR, CarPropertyManager.SENSOR_RATE_NORMAL);
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "CarPropertyManager.onSpeedChanged: " + carPropertyValue.getValue());
+            }
+
+            @Override
+            public void onErrorEvent(int i, int i1) {
+                Log.e(TAG, "CarPropertyManager.onSpeedChangedError");
+            }
+        }, VehiclePropertyIds.PERF_VEHICLE_SPEED, CarPropertyManager.SENSOR_RATE_NORMAL);
     }
 }

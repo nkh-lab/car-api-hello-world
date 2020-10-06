@@ -1,8 +1,8 @@
 # car-api-hello-world
-CAR API usage example.
-Example based on android.car.hardware.CarSensorManager usage for obtaining speed and gear changing events.
+Android automotive CAR API usage example.
+Example based on android.car.hardware.CarSensorManager(deprecated in API 29) and android.car.hardware.CarPropertyManager usage for obtaining speed and gear changing events.
 
-## Usage steps
+## CAR API usage steps
 1. Add android.car library to app/build.gradle:
 ```
 android {
@@ -22,6 +22,15 @@ Polestar 2 API 28 ([how to setup link](https://stackoverflow.com/questions/57968
 
 ## Logcat expected output
 ```
-2020-10-02 09:06:40.224 17090-17090/com.example.carapihelloworld D/MainActivity: onSpeedChanged: 1.388889
-2020-10-02 09:06:40.224 17090-17090/com.example.carapihelloworld D/MainActivity: onGearChanged: 4
+...
+2020-10-02 17:04:06.673 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.CurrentGear: 4
+2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 6.7055836
+2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 1
+2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 4
+2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.7055836
+2020-10-02 17:04:22.159 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.2585444
+2020-10-02 17:04:39.531 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 2
+2020-10-02 17:04:55.746 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 3.0555558
+2020-10-02 17:04:55.747 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 3.0555558
+...
 ```
