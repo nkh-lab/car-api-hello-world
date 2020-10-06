@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void initCarPropertyManager() {
         mCarPropertyManager = (CarPropertyManager) mCar.getCarManager(Car.PROPERTY_SERVICE);
 
-        Log.d(TAG, "CarPropertyManager.CurrentGear: " + mCarPropertyManager.getIntProperty(VehiclePropertyIds.CURRENT_GEAR, 0));
+        Log.d(TAG, "CarPropertyManager.CurrentGear: " + mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0));
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorEvent(int i, int i1) {
                 Log.e(TAG, "CarPropertyManager.onGearChangedError");
             }
-        }, VehiclePropertyIds.CURRENT_GEAR, CarPropertyManager.SENSOR_RATE_NORMAL);
+        }, VehiclePropertyIds.GEAR_SELECTION, CarPropertyManager.SENSOR_RATE_NORMAL);
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override

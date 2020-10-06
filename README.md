@@ -23,14 +23,20 @@ Polestar 2 API 28 ([how to setup link](https://stackoverflow.com/questions/57968
 ## Logcat expected output
 ```
 ...
-2020-10-02 17:04:06.673 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.CurrentGear: 4
-2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 6.7055836
-2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 1
-2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 4
-2020-10-02 17:04:06.690 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.7055836
-2020-10-02 17:04:22.159 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.2585444
-2020-10-02 17:04:39.531 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 2
-2020-10-02 17:04:55.746 22378-22378/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 3.0555558
-2020-10-02 17:04:55.747 22378-22378/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 3.0555558
+2020-10-06 16:19:44.610 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.CurrentGear: 8
+2020-10-06 16:19:44.623 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 1.9444445
+2020-10-06 16:19:44.623 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 8
+2020-10-06 16:19:44.624 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 8
+2020-10-06 16:19:44.624 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 1.9444445
+...
+2020-10-06 16:20:42.973 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 4
+2020-10-06 16:20:42.973 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 4
+2020-10-06 16:20:50.085 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 1
+2020-10-06 16:20:50.086 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 1
+...
+2020-10-06 16:23:10.680 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 4.7222223
+2020-10-06 16:23:10.681 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 4.7222223
+2020-10-06 16:23:11.204 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.1111116
+2020-10-06 16:23:11.206 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 6.1111116
 ...
 ```
