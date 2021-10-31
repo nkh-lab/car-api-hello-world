@@ -1,27 +1,25 @@
 package com.example.carapihelloworld;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.car.Car;
 import android.car.VehiclePropertyIds;
-import android.car.hardware.CarSensorManager;
 import android.car.hardware.CarPropertyValue;
-import android.car.hardware.CarSensorEvent;
 import android.car.hardware.property.CarPropertyManager;
-
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CarApiHelloWorld";
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
 
     private Car mCar;
-    private CarSensorManager mCarSensorManager;
     private CarPropertyManager mCarPropertyManager;
 
     @Override
@@ -29,9 +27,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (checkSelfPermission(Car.PERMISSION_SPEED) != PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(Car.PERMISSION_POWERTRAIN) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Car.PERMISSION_SPEED, Car.PERMISSION_POWERTRAIN}, REQUEST_CODE_ASK_PERMISSIONS);
+        // Request dangerous permissions only
+        List<String> permissionList = new ArrayList<String>();
+
+        if (checkSelfPermission(Car.PERMISSION_SPEED) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Car.PERMISSION_SPEED);
+        }
+        if (checkSelfPermission(Car.PERMISSION_ENERGY) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Car.PERMISSION_ENERGY);
+        }
+
+        if (!permissionList.isEmpty()) {
+            requestPermissions(permissionList.toArray(new String[0]), REQUEST_CODE_ASK_PERMISSIONS);
         } else {
             initCarApi();
         }
@@ -48,26 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void initCarApi() {
         mCar = Car.createCar(this);
 
-        initCarSensorManager();
         initCarPropertyManager();
-    }
-
-    private void initCarSensorManager() {
-        mCarSensorManager = (CarSensorManager) mCar.getCarManager(Car.SENSOR_SERVICE);
-
-        mCarSensorManager.registerListener(new CarSensorManager.OnSensorChangedListener() {
-            @Override
-            public void onSensorChanged(CarSensorEvent var1) {
-                Log.d(TAG, "CarSensorManager.onSpeedChanged: " + var1.floatValues[0]);
-            }
-        }, CarSensorManager.SENSOR_TYPE_CAR_SPEED, CarSensorManager.SENSOR_RATE_NORMAL);
-
-        mCarSensorManager.registerListener(new CarSensorManager.OnSensorChangedListener() {
-            @Override
-            public void onSensorChanged(CarSensorEvent var1) {
-                Log.d(TAG, "CarSensorManager.onGearChanged: " + var1.intValues[0]);
-            }
-        }, CarSensorManager.SENSOR_TYPE_GEAR, CarSensorManager.SENSOR_RATE_NORMAL);
     }
 
     private void initCarPropertyManager() {
@@ -98,5 +86,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "CarPropertyManager.onSpeedChangedError");
             }
         }, VehiclePropertyIds.PERF_VEHICLE_SPEED, CarPropertyManager.SENSOR_RATE_NORMAL);
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "CarPropertyManager.onEvBatteryLevelChanged: " + carPropertyValue.getValue());
+            }
+
+            @Override
+            public void onErrorEvent(int i, int i1) {
+                Log.e(TAG, "CarPropertyManager.onEvBatteryLevelError");
+            }
+        }, VehiclePropertyIds.EV_BATTERY_LEVEL, CarPropertyManager.SENSOR_RATE_ONCHANGE);
     }
 }

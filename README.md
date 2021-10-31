@@ -1,7 +1,7 @@
 # car-api-hello-world
 Android automotive CAR API usage example.
 
-Example based on `android.car.hardware.CarSensorManager`(deprecated in API 29) and `android.car.hardware.CarPropertyManager` usage for obtaining speed and gear changing events.
+Example based on `android.car.hardware.CarPropertyManager` usage for obtaining speed, gear and other properties.
 
 ## CAR API usage
 In this project for using CAR API the following steps were done:
@@ -13,12 +13,11 @@ android {
     useLibrary 'android.car'
 }
 ```
-2. Added permissions to [AndroidManifest.xml](app/src/main/AndroidManifest.xml):
-```
-<uses-permission android:name="android.car.permission.CAR_SPEED" />
-<uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
-```
-3. Added listeners to `android.car.hardware.CarSensorManager` in [MainActivity.java](app/src/main/java/com/example/carapihelloworld/MainActivity.java)
+2. Added permissions to [AndroidManifest.xml](app/src/main/AndroidManifest.xml)
+
+3. Requested `dangerous` permissions in runtime in `onCreate()`
+
+4. Added listeners by `CarPropertyManager.registerCallback()` and used get API, e.g. `CarPropertyManager.getIntProperty()`.
 
 ## Emulator/AVD
 For runtime testing `Polestar2` AVD is used.
@@ -28,23 +27,10 @@ For runtime testing `Polestar2` AVD is used.
 ## Logcat expected output
 After compiling and running this project, the following logcat messages are expected:  
 ```
-...
-2020-10-06 16:19:44.610 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.CurrentGear: 8
-2020-10-06 16:19:44.623 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 1.9444445
-2020-10-06 16:19:44.623 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 8
-2020-10-06 16:19:44.624 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 8
-2020-10-06 16:19:44.624 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 1.9444445
-...
-2020-10-06 16:20:42.973 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 4
-2020-10-06 16:20:42.973 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 4
-2020-10-06 16:20:50.085 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onGearChanged: 1
-2020-10-06 16:20:50.086 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onGearChanged: 1
-...
-2020-10-06 16:23:10.680 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 4.7222223
-2020-10-06 16:23:10.681 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 4.7222223
-2020-10-06 16:23:11.204 25580-25580/com.example.carapihelloworld D/MainActivity: CarPropertyManager.onSpeedChanged: 6.1111116
-2020-10-06 16:23:11.206 25580-25580/com.example.carapihelloworld D/MainActivity: CarSensorManager.onSpeedChanged: 6.1111116
-...
+2021-10-31 23:19:07.580 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.CurrentGear: 8
+2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onGearChanged: 8
+2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onSpeedChanged: 0.0
+2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onEvBatteryLevelChanged: 150000.0
 ```
 To change car speed, gear, location, etc. use `AVD Extended Controls`:
 

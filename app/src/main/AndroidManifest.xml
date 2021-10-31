@@ -2,8 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carapihelloworld">
 
+    <!--
+    Car service permissions in AOSP project tree:
+    packages/services/Car/service/AndroidManifest.xml
+    -->
+
+    <!-- 
+    android:protectionLevel="normal"
+    Is granted at install time if requested in the manifest(here).
+    -->
+    <uses-permission android:name="android.car.permission.CAR_POWERTRAIN"/>
+
+    <!-- 
+    android:protectionLevel="dangerous"
+    Should be additionally requested in runtime by android.app.Activity.requestPermissions()
+    -->
     <uses-permission android:name="android.car.permission.CAR_SPEED" />
-    <uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
+    <uses-permission android:name="android.car.permission.CAR_ENERGY" />
 
     <application
         android:allowBackup="true"
