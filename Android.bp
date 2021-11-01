@@ -1,0 +1,14 @@
+android_app {
+    name: "CarApiHelloWorld",
+    platform_apis: true,
+    certificate: "platform",
+    srcs: ["app/src/main/**/*.java"],
+    resource_dirs: ["app/src/main/res"],
+    manifest: "app/src/main/AndroidManifest.xml",
+
+    static_libs: [
+        "androidx.appcompat_appcompat",
+        "androidx-constraintlayout_constraintlayout",
+        "android.car"
+    ],   
+}

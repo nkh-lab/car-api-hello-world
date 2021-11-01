@@ -100,5 +100,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "EV_BATTERY_LEVEL: onErrorEvent(" + i + ", " + i1 + ")");
             }
         }, VehiclePropertyIds.EV_BATTERY_LEVEL, CarPropertyManager.SENSOR_RATE_ONCHANGE);
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "FUEL_DOOR_OPEN: onChangeEvent(" + carPropertyValue.getValue() + ")");
+
+                try {
+                    // Should be signed to "android.car.permission.CONTROL_CAR_ENERGY_PORTS"
+                    mCarPropertyManager.setBooleanProperty(VehiclePropertyIds.FUEL_DOOR_OPEN, 0, true);
+                } catch (SecurityException | IllegalArgumentException e) {
+                    Log.e(TAG, "FUEL_DOOR_OPEN: setBooleanProperty(), Exception: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onErrorEvent(int i, int i1) {
+                Log.d(TAG, "FUEL_DOOR_OPEN: onErrorEvent(" + i + ", " + i1 + ")");
+            }
+        }, VehiclePropertyIds.FUEL_DOOR_OPEN, CarPropertyManager.SENSOR_RATE_ONCHANGE);
     }
 }
