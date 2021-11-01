@@ -61,41 +61,43 @@ public class MainActivity extends AppCompatActivity {
     private void initCarPropertyManager() {
         mCarPropertyManager = (CarPropertyManager) mCar.getCarManager(Car.PROPERTY_SERVICE);
 
-        Log.d(TAG, "CarPropertyManager.CurrentGear: " + mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0));
+        Log.d(TAG, "Test CarPropertyManager getters:");
+        Log.d(TAG, "GEAR_SELECTION: getIntProperty(" + mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0) + ")");
 
+        Log.d(TAG, "Test CarPropertyManager callbacks:");
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
             public void onChangeEvent(CarPropertyValue carPropertyValue) {
-                Log.d(TAG, "CarPropertyManager.onGearChanged: " + carPropertyValue.getValue());
+                Log.d(TAG, "GEAR_SELECTION: onChangeEvent(" + carPropertyValue.getValue() + ")");
             }
 
             @Override
             public void onErrorEvent(int i, int i1) {
-                Log.e(TAG, "CarPropertyManager.onGearChangedError");
+                Log.d(TAG, "GEAR_SELECTION: onErrorEvent(" + i + ", " + i1 + ")");
             }
         }, VehiclePropertyIds.GEAR_SELECTION, CarPropertyManager.SENSOR_RATE_NORMAL);
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
             public void onChangeEvent(CarPropertyValue carPropertyValue) {
-                Log.d(TAG, "CarPropertyManager.onSpeedChanged: " + carPropertyValue.getValue());
+                Log.d(TAG, "PERF_VEHICLE_SPEED: onChangeEvent(" + carPropertyValue.getValue() + ")");
             }
 
             @Override
             public void onErrorEvent(int i, int i1) {
-                Log.e(TAG, "CarPropertyManager.onSpeedChangedError");
+                Log.d(TAG, "PERF_VEHICLE_SPEED: onErrorEvent(" + i + ", " + i1 + ")");
             }
         }, VehiclePropertyIds.PERF_VEHICLE_SPEED, CarPropertyManager.SENSOR_RATE_NORMAL);
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
             public void onChangeEvent(CarPropertyValue carPropertyValue) {
-                Log.d(TAG, "CarPropertyManager.onEvBatteryLevelChanged: " + carPropertyValue.getValue());
+                Log.d(TAG, "EV_BATTERY_LEVEL: onChangeEvent(" + carPropertyValue.getValue() + ")");
             }
 
             @Override
             public void onErrorEvent(int i, int i1) {
-                Log.e(TAG, "CarPropertyManager.onEvBatteryLevelError");
+                Log.d(TAG, "EV_BATTERY_LEVEL: onErrorEvent(" + i + ", " + i1 + ")");
             }
         }, VehiclePropertyIds.EV_BATTERY_LEVEL, CarPropertyManager.SENSOR_RATE_ONCHANGE);
     }

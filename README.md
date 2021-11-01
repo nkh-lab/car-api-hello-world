@@ -27,10 +27,12 @@ For runtime testing `Polestar2` AVD is used.
 ## Logcat expected output
 After compiling and running this project, the following logcat messages are expected:  
 ```
-2021-10-31 23:19:07.580 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.CurrentGear: 8
-2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onGearChanged: 8
-2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onSpeedChanged: 0.0
-2021-10-31 23:19:07.598 13982-13982/com.example.carapihelloworld D/CarApiHelloWorld: CarPropertyManager.onEvBatteryLevelChanged: 150000.0
+2021-11-01 00:14:43.602 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
+2021-11-01 00:14:43.603 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: getIntProperty(1)
+2021-11-01 00:14:43.603 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager callbacks:
+2021-11-01 00:14:43.611 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: onChangeEvent(1)
+2021-11-01 00:14:43.611 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: PERF_VEHICLE_SPEED: onChangeEvent(0.0)
+2021-11-01 00:14:43.611 22419-22419/com.example.carapihelloworld D/CarApiHelloWorld: EV_BATTERY_LEVEL: onChangeEvent(150000.0)
 ```
 To change car speed, gear, location, etc. use `AVD Extended Controls`:
 
