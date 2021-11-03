@@ -9,25 +9,28 @@ Example based on `android.car.hardware.CarPropertyManager` usage for obtaining s
 Project support both [gradle](app/build.gradle) and [AOSP (Android.bp)](Android.bp) builds. 
 
 ## CAR API usage
-In this project for using CAR API the following steps were done:
+To use the CAR API, the following steps were taken:
 
-1. Added `android.car` library (to [gradle](app/build.gradle) or to [Android.bp](Android.bp))
+1. Add `android.car` library (to [gradle](app/build.gradle), to [Android.bp](Android.bp)).
 
-2. Added permissions to [AndroidManifest.xml](app/src/main/AndroidManifest.xml)
+2. Add permissions to [AndroidManifest.xml](app/src/main/AndroidManifest.xml).
 
-3. Requested `dangerous` permissions in runtime in `onCreate()`
+3. Request `dangerous` permissions in runtime in `onCreate()` in [MainActivity.java](app/src/main/java/com/example/carapihelloworld/MainActivity.java).
 
-4. Added listeners by `CarPropertyManager.registerCallback()` and used get API, e.g. `CarPropertyManager.getIntProperty()`.
+4. Use `CarPropertyManager` API in [MainActivity.java](app/src/main/java/com/example/carapihelloworld/MainActivity.java):
+    - listeners: `registerCallback()`
+    - getters: `getIntProperty()`
+    - setters: `setBooleanProperty`
 
 ## Emulator/AVD
-Tested on next emulators:
-- SDK build on `Polestar2` AVD 
-- AOSP build on `aosp_car_x86-userdebug` (android-12.0.0_r3)
+Tested on emulators:
+- `Polestar2` 
+- AOSP `aosp_car_x86-userdebug` (android-12.0.0_r3)
 
 [Useful link of how to set up `Polestar2` on Android Studio.](https://stackoverflow.com/questions/57968790/android-automotive-emulator-no-system-images-installed-for-this-target/58159715#58159715)
 
 ## AOSP
-Start `CarApiHelloWorldApp` app via `am`:
+Start `CarApiHelloWorldApp` app via ADB ActivityManager:
 ```
 $ am start -n com.example.carapihelloworld/.MainActivity
 ```
