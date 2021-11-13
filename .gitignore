@@ -1,3 +1,23 @@
+# QtCreator #
+
+# Files
+*.autosave
+*.cflags
+*.config
+*.creator
+*.cxxflags
+*.files
+*.includes
+*.log
+*.swp
+*.user
+
+# Folders
+build/
+temp/
+
+# AndroidStudio #
+
 # Files
 *.iml
 local.properties
@@ -11,5 +31,10 @@ local.properties
 build/
 captures/
 
+# VisualStudioCode #
 
+# Files
+.project
 
+# Folders
+.settings/
