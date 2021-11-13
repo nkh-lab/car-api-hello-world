@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/vehicle_property_id_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID: " />
+
+    <TextView
+        android:id="@+id/vehicle_property_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/vehicle_property_id_lbl"
+        android:text="123456789" />
+
+    <TextView
+        android:id="@+id/vehicle_property_name_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle_property_id_lbl"
+        android:text="Name: " />
+
+    <TextView
+        android:id="@+id/vehicle_property_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle_property_id"
+        android:layout_toEndOf="@id/vehicle_property_name_lbl"
+        android:text="VHAL_PROP_NAME" />
+
+    <TextView
+        android:id="@+id/vehicle_property_value_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle_property_name_lbl"
+        android:text="Value: " />
+
+    <TextView
+        android:id="@+id/vehicle_property_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle_property_name"
+        android:layout_toEndOf="@id/vehicle_property_value_lbl"
+        android:text="123" />
+
+    <Button
+        android:id="@+id/vehicle_property_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vehicle_property_value_lbl"
+        android:enabled="false"
+        android:text="Set Value" />
+
+</RelativeLayout>

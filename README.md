@@ -8,6 +8,9 @@ Example based on `android.car.hardware.CarPropertyManager` usage for obtaining s
 
 Project support both [gradle](app/build.gradle) and [AOSP (Android.bp)](Android.bp) builds. 
 
+![](doc/screenshots/MainView-SetDialogue.png)
+
+
 ## CAR API usage
 To use the CAR API, the following steps were taken:
 
@@ -24,10 +27,13 @@ To use the CAR API, the following steps were taken:
 
 ## Emulator/AVD
 Tested on emulators:
-- `Polestar2` 
+- `Polestar2` ([Useful link of how to set up `Polestar2` on Android Studio](https://stackoverflow.com/questions/57968790/android-automotive-emulator-no-system-images-installed-for-this-target/58159715#58159715))
 - AOSP `aosp_car_x86-userdebug` (android-12.0.0_r3)
 
-[Useful link of how to set up `Polestar2` on Android Studio.](https://stackoverflow.com/questions/57968790/android-automotive-emulator-no-system-images-installed-for-this-target/58159715#58159715)
+To change car speed, gear, location, etc. use `AVD Extended Controls`:
+
+![](doc/screenshots/ExtendedControls-CarData.png)
+
 
 ## AOSP
 Start `CarApiHelloWorldApp` app via ADB ActivityManager:
@@ -75,6 +81,3 @@ AOSP `aosp_car_x86-userdebug` emulator:
 11-01 16:12:26.177  3587  3587 D CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
 11-01 16:12:26.197  3587  3587 D CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(true)
 ```
-To change car speed, gear, location, etc. use `AVD Extended Controls`:
-
-![](doc/screenshots/ExtendedControls-CarData.png)
