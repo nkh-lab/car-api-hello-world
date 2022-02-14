@@ -1,7 +1,7 @@
 # car-api-hello-world
 Android automotive CAR API usage example.
 
-Example based on `android.car.hardware.CarPropertyManager` usage for obtaining speed, gear and other properties which are belonged for all possible permission protection levels:
+The example is based on the use of `android.car.hardware.CarPropertyManager` and shows how to work with `SYSTEM` (speed, transfer, etc.) and `VENDOR` custom properties that belong to all possible permission protection levels:
 - normal
 - dangerous
 - signature|privileged
@@ -29,55 +29,35 @@ To use the CAR API, the following steps were taken:
 Tested on emulators:
 - `Polestar2` ([Useful link of how to set up `Polestar2` on Android Studio](https://stackoverflow.com/questions/57968790/android-automotive-emulator-no-system-images-installed-for-this-target/58159715#58159715))
 - AOSP `aosp_car_x86-userdebug` (android-12.0.0_r3)
+- [NCAR - Android Automotive Emulator Project](https://github.com/nkh-lab/aosp-ncar-manifest) - is used for testing `VENDOR` properties
 
 To change car speed, gear, location, etc. use `AVD Extended Controls`:
 
 ![](doc/screenshots/ExtendedControls-CarData.png)
 
-
-## AOSP
+## How to run on AOSP
 Start `CarApiHelloWorldApp` app via ADB ActivityManager:
 ```
 $ am start -n com.example.carapihelloworld/.MainActivity
 ```
 
 ## Logcat expected output
-After compiling and running this project, the following `logcat` messages are expected.
-
-1. Not signed app
-
-`Polstar2` emulator:
+After compiling and running this project, the following `logcat` messages are expected:
 ```
-2021-11-01 03:16:36.826 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
-2021-11-01 03:16:36.827 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: getIntProperty(1)
-2021-11-01 03:16:36.827 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager callbacks:
-2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: onChangeEvent(1)
-2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: PERF_VEHICLE_SPEED: onChangeEvent(0.0)
-2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: EV_BATTERY_LEVEL: onChangeEvent(150000.0)
-2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld D/CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
+2022-02-14 17:29:18.154 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
+2022-02-14 17:29:18.155 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: getIntProperty(289408000, 0)=4
+2022-02-14 17:29:18.156 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: VENDOR_TEST_COUNTER: getIntProperty(557842433, 0)=4
+2022-02-14 17:29:18.156 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager callbacks:
+2022-02-14 17:29:18.282 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: onChangeEvent(4)
+2022-02-14 17:29:18.282 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: PERF_VEHICLE_SPEED: onChangeEvent(0.0)
+2022-02-14 17:29:18.282 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: EV_BATTERY_LEVEL: onChangeEvent(150000.0)
+2022-02-14 17:29:18.283 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
+2022-02-14 17:29:18.283 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: VENDOR_TEST_COUNTER: onChangeEvent(4)
+```
+Permission errors examples:
+```
 2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld E/CarApiHelloWorld: FUEL_DOOR_OPEN: setBooleanProperty(), Exception: permission is null
 ```
-AOSP `aosp_car_x86-userdebug` emulator:
 ```
-2021-11-02 13:13:55.258 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
-2021-11-02 13:13:55.266 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: getIntProperty(4)
-2021-11-02 13:13:55.266 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager callbacks:
-2021-11-02 13:13:55.274 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: GEAR_SELECTION: onChangeEvent(4)
-2021-11-02 13:13:55.290 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: PERF_VEHICLE_SPEED: onChangeEvent(0.0)
-2021-11-02 13:13:55.290 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: EV_BATTERY_LEVEL: onChangeEvent(150000.0)
-2021-11-02 13:13:55.290 2642-2642/com.example.carapihelloworld D/CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
 2021-11-02 13:13:55.293 2642-2642/com.example.carapihelloworld E/CarApiHelloWorld: FUEL_DOOR_OPEN: setBooleanProperty(), Exception: requires android.car.permission.CONTROL_CAR_ENERGY_PORTS
-```
-2. Signed app
-
-AOSP `aosp_car_x86-userdebug` emulator:
-```
-11-01 16:12:26.157  3587  3587 D CarApiHelloWorld: Test CarPropertyManager getters:
-11-01 16:12:26.162  3587  3587 D CarApiHelloWorld: GEAR_SELECTION: getIntProperty(4)
-11-01 16:12:26.162  3587  3587 D CarApiHelloWorld: Test CarPropertyManager callbacks:
-11-01 16:12:26.172  3587  3587 D CarApiHelloWorld: GEAR_SELECTION: onChangeEvent(4)
-11-01 16:12:26.172  3587  3587 D CarApiHelloWorld: PERF_VEHICLE_SPEED: onChangeEvent(0.0)
-11-01 16:12:26.172  3587  3587 D CarApiHelloWorld: EV_BATTERY_LEVEL: onChangeEvent(150000.0)
-11-01 16:12:26.177  3587  3587 D CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
-11-01 16:12:26.197  3587  3587 D CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(true)
 ```

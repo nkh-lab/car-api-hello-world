@@ -20,10 +20,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "CarApiHelloWorld";
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
 
+    // from out/soong/.intermediates/vendor/nkh-lab/interfaces/vehicle/1.0/vendor.nlab.vehicle-V1.0-java_gen_java/gen/srcs/vendor/nlab/vehicle/V1_0/VehicleProperty.java
+    private static final int VENDOR_TEST_COUNTER = 557842433 /* (0x0001 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */;
+
     VehiclePropertyView mGearPropertyView;
     VehiclePropertyView mSpeedPropertyView;
     VehiclePropertyView mBatteryLevelPropertyView;
     VehiclePropertyView mFuelDoorOpenPropertyView;
+    VehiclePropertyView mVendorTestCounterPropertyView;
 
     private CarPropertyManager mCarPropertyManager;
 
@@ -35,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> dangPermToRequest = checkDangerousPermissions();
 
         if (dangPermToRequest.isEmpty()) {
-            initCarPropertyManager();
-            initGUI();
+            main();
         } else {
             requestDangerousPermissions(dangPermToRequest);
             // CB:
@@ -48,10 +51,17 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
             //all permissions have been granted
             if (!Arrays.asList(grantResults).contains(PackageManager.PERMISSION_DENIED)) {
-                initCarPropertyManager();
-                initGUI();
+                main();
             }
         }
+    }
+
+    private void main() {
+        initCarPropertyManager();
+        initGUI();
+
+        testGetProperties();
+        registerCarPropertyManagerCBs();
     }
 
     @NonNull
@@ -93,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 .enableSetValue(new VehiclePropertyView.SetValueCB() {
                     @Override
                     public void onSetValue(String value_to_set) {
-                        Log.d(TAG, "onEdit(" + value_to_set + ")");
+                        Log.d(TAG, "FUEL_DOOR_OPEN: onEdit(" + value_to_set + ")");
 
                         try {
                             mCarPropertyManager.setBooleanProperty(VehiclePropertyIds.FUEL_DOOR_OPEN, 0, Boolean.parseBoolean(value_to_set));
@@ -102,14 +112,38 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        mVendorTestCounterPropertyView = findViewById(R.id.vendor_test_counter_property_view);
+        mVendorTestCounterPropertyView.setPropId(VENDOR_TEST_COUNTER)
+                .setPropName("VENDOR_TEST_COUNTER")
+                .enableSetValue(new VehiclePropertyView.SetValueCB() {
+                    @Override
+                    public void onSetValue(String value_to_set) {
+                        Log.d(TAG, "VENDOR_TEST_COUNTER: onEdit(" + value_to_set + ")");
+
+                        try {
+                            mCarPropertyManager.setIntProperty(VENDOR_TEST_COUNTER, 0, Integer.parseInt(value_to_set));
+                        } catch (SecurityException | IllegalArgumentException e) {
+                            Log.e(TAG, "VENDOR_TEST_COUNTER: setIntProperty(), Exception: " + e.getMessage());
+                        }
+                    }
+                });
     }
 
     private void initCarPropertyManager() {
         mCarPropertyManager = (CarPropertyManager) Car.createCar(this).getCarManager(Car.PROPERTY_SERVICE);
+    }
 
+    private void testGetProperties() {
         Log.d(TAG, "Test CarPropertyManager getters:");
-        Log.d(TAG, "GEAR_SELECTION: getIntProperty(" + mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0) + ")");
+        int gearSelection = mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0);
+        Log.d(TAG, "GEAR_SELECTION: getIntProperty(" + VehiclePropertyIds.GEAR_SELECTION + ", 0)=" + gearSelection);
 
+        int vendorTestCounter = mCarPropertyManager.getIntProperty(VENDOR_TEST_COUNTER, 0);
+        Log.d(TAG, "VENDOR_TEST_COUNTER: getIntProperty(" + VENDOR_TEST_COUNTER + ", 0)=" + vendorTestCounter);
+    }
+
+    private void registerCarPropertyManagerCBs() {
         Log.d(TAG, "Test CarPropertyManager callbacks:");
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
@@ -162,5 +196,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "FUEL_DOOR_OPEN: onErrorEvent(" + propId + ", " + zone + ")");
             }
         }, VehiclePropertyIds.FUEL_DOOR_OPEN, CarPropertyManager.SENSOR_RATE_ONCHANGE);
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "VENDOR_TEST_COUNTER: onChangeEvent(" + carPropertyValue.getValue() + ")");
+                mVendorTestCounterPropertyView.setPropValue(String.valueOf(carPropertyValue.getValue()));
+            }
+
+            @Override
+            public void onErrorEvent(int propId, int zone) {
+                Log.d(TAG, "VENDOR_TEST_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
+            }
+        }, VENDOR_TEST_COUNTER, CarPropertyManager.SENSOR_RATE_ONCHANGE);
     }
 }
