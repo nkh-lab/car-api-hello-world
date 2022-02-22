@@ -33,7 +33,7 @@
     <!-- FUEL_DOOR_OPEN for setBooleanProperty() -->
     <uses-permission android:name="android.car.permission.CONTROL_CAR_ENERGY_PORTS" />
 
-    !-- For Vendor properties -->
+    <!-- For Vendor properties -->
     <uses-permission android:name="android.car.permission.CAR_VENDOR_EXTENSION" />
 
     <application
