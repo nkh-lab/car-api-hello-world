@@ -21,13 +21,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
 
     // from out/soong/.intermediates/vendor/nkh-lab/interfaces/vehicle/1.0/vendor.nlab.vehicle-V1.0-java_gen_java/gen/srcs/vendor/nlab/vehicle/V1_0/VehicleProperty.java
-    private static final int VENDOR_TEST_COUNTER = 557842433 /* (0x0001 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */;
+    public static final int VENDOR_TEST_1S_COUNTER = 557842433 /* (0x0001 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */;
+    public static final int VENDOR_TEST_500MS_COUNTER = 557842434 /* (0x0002 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */;
+
 
     VehiclePropertyView mGearPropertyView;
     VehiclePropertyView mSpeedPropertyView;
     VehiclePropertyView mBatteryLevelPropertyView;
     VehiclePropertyView mFuelDoorOpenPropertyView;
-    VehiclePropertyView mVendorTestCounterPropertyView;
+    VehiclePropertyView mVendorTest1sCounterPropertyView;
+    VehiclePropertyView mVendorTest500msCounterPropertyView;
 
     private CarPropertyManager mCarPropertyManager;
 
@@ -113,18 +116,34 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        mVendorTestCounterPropertyView = findViewById(R.id.vendor_test_counter_property_view);
-        mVendorTestCounterPropertyView.setPropId(VENDOR_TEST_COUNTER)
-                .setPropName("VENDOR_TEST_COUNTER")
+        mVendorTest1sCounterPropertyView = findViewById(R.id.vendor_test_1s_counter_property_view);
+        mVendorTest1sCounterPropertyView.setPropId(VENDOR_TEST_1S_COUNTER)
+                .setPropName("VENDOR_TEST_1S_COUNTER")
                 .enableSetValue(new VehiclePropertyView.SetValueCB() {
                     @Override
                     public void onSetValue(String value_to_set) {
-                        Log.d(TAG, "VENDOR_TEST_COUNTER: onEdit(" + value_to_set + ")");
+                        Log.d(TAG, "VENDOR_TEST_1S_COUNTER: onEdit(" + value_to_set + ")");
 
                         try {
-                            mCarPropertyManager.setIntProperty(VENDOR_TEST_COUNTER, 0, Integer.parseInt(value_to_set));
+                            mCarPropertyManager.setIntProperty(VENDOR_TEST_1S_COUNTER, 0, Integer.parseInt(value_to_set));
                         } catch (SecurityException | IllegalArgumentException e) {
-                            Log.e(TAG, "VENDOR_TEST_COUNTER: setIntProperty(), Exception: " + e.getMessage());
+                            Log.e(TAG, "VENDOR_TEST_1S_COUNTER: setIntProperty(), Exception: " + e.getMessage());
+                        }
+                    }
+                });
+
+        mVendorTest500msCounterPropertyView = findViewById(R.id.vendor_test_500ms_counter_property_view);
+        mVendorTest500msCounterPropertyView.setPropId(VENDOR_TEST_500MS_COUNTER)
+                .setPropName("VENDOR_TEST_500MS_COUNTER")
+                .enableSetValue(new VehiclePropertyView.SetValueCB() {
+                    @Override
+                    public void onSetValue(String value_to_set) {
+                        Log.d(TAG, "VENDOR_TEST_500MS_COUNTER: onEdit(" + value_to_set + ")");
+
+                        try {
+                            mCarPropertyManager.setIntProperty(VENDOR_TEST_500MS_COUNTER, 0, Integer.parseInt(value_to_set));
+                        } catch (SecurityException | IllegalArgumentException e) {
+                            Log.e(TAG, "VENDOR_TEST_500MS_COUNTER: setIntProperty(), Exception: " + e.getMessage());
                         }
                     }
                 });
@@ -139,8 +158,8 @@ public class MainActivity extends AppCompatActivity {
         int gearSelection = mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0);
         Log.d(TAG, "GEAR_SELECTION: getIntProperty(" + VehiclePropertyIds.GEAR_SELECTION + ", 0)=" + gearSelection);
 
-        int vendorTestCounter = mCarPropertyManager.getIntProperty(VENDOR_TEST_COUNTER, 0);
-        Log.d(TAG, "VENDOR_TEST_COUNTER: getIntProperty(" + VENDOR_TEST_COUNTER + ", 0)=" + vendorTestCounter);
+        int vendorTestCounter = mCarPropertyManager.getIntProperty(VENDOR_TEST_1S_COUNTER, 0);
+        Log.d(TAG, "VENDOR_TEST_1S_COUNTER: getIntProperty(" + VENDOR_TEST_1S_COUNTER + ", 0)=" + vendorTestCounter);
     }
 
     private void registerCarPropertyManagerCBs() {
@@ -200,14 +219,27 @@ public class MainActivity extends AppCompatActivity {
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
             public void onChangeEvent(CarPropertyValue carPropertyValue) {
-                Log.d(TAG, "VENDOR_TEST_COUNTER: onChangeEvent(" + carPropertyValue.getValue() + ")");
-                mVendorTestCounterPropertyView.setPropValue(String.valueOf(carPropertyValue.getValue()));
+                Log.d(TAG, "VENDOR_TEST_1S_COUNTER: onChangeEvent(" + carPropertyValue.getValue() + ")");
+                mVendorTest1sCounterPropertyView.setPropValue(String.valueOf(carPropertyValue.getValue()));
             }
 
             @Override
             public void onErrorEvent(int propId, int zone) {
-                Log.d(TAG, "VENDOR_TEST_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
+                Log.d(TAG, "VENDOR_TEST_1S_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
             }
-        }, VENDOR_TEST_COUNTER, CarPropertyManager.SENSOR_RATE_ONCHANGE);
+        }, VENDOR_TEST_1S_COUNTER, 100);
+
+        mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
+            @Override
+            public void onChangeEvent(CarPropertyValue carPropertyValue) {
+                Log.d(TAG, "VENDOR_TEST_500MS_COUNTER: onChangeEvent(" + carPropertyValue.getValue() + ")");
+                mVendorTest500msCounterPropertyView.setPropValue(String.valueOf(carPropertyValue.getValue()));
+            }
+
+            @Override
+            public void onErrorEvent(int propId, int zone) {
+                Log.d(TAG, "VENDOR_TEST_500MS_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
+            }
+        }, VENDOR_TEST_500MS_COUNTER, CarPropertyManager.SENSOR_RATE_NORMAL);
     }
 }

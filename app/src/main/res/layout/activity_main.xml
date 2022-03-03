@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <com.example.carapihelloworld.VehiclePropertyView
-        android:id="@+id/gear_property_view"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <com.example.carapihelloworld.VehiclePropertyView
-        android:id="@+id/speed_property_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/gear_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <com.example.carapihelloworld.VehiclePropertyView
-        android:id="@+id/battery_level_property_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/speed_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <com.example.carapihelloworld.VehiclePropertyView
-        android:id="@+id/fuel_door_property_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/battery_level_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <com.example.carapihelloworld.VehiclePropertyView
-        android:id="@+id/vendor_test_counter_property_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/fuel_door_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/vendor_test_1s_counter_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/vendor_test_500ms_counter_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
