@@ -32,6 +32,9 @@ android {
         debug {
             minifyEnabled false
             signingConfig signingConfigs.debugSignCfg
+
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
         }
     }
 
