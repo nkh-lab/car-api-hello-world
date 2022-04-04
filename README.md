@@ -40,8 +40,9 @@ Start `CarApiHelloWorldApp` app via ADB ActivityManager:
 ```
 $ am start -n com.example.carapihelloworld/.MainActivity
 ```
+Or manually through the app list if it is part of the entire AOSP build (e.g. [NCAR - Android Automotive Emulator Project](https://github.com/nkh-lab/aosp-ncar-manifest))
 
-## Logcat expected output
+## Logcat output
 After compiling and running this project, the following `logcat` messages are expected:
 ```
 2022-02-14 17:29:18.154 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
@@ -54,7 +55,7 @@ After compiling and running this project, the following `logcat` messages are ex
 2022-02-14 17:29:18.283 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: FUEL_DOOR_OPEN: onChangeEvent(false)
 2022-02-14 17:29:18.283 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: VENDOR_TEST_COUNTER: onChangeEvent(4)
 ```
-Permission errors examples:
+Examples of permissions error messages:
 ```
 2021-11-01 03:16:36.840 26840-26840/com.example.carapihelloworld E/CarApiHelloWorld: FUEL_DOOR_OPEN: setBooleanProperty(), Exception: permission is null
 ```
