@@ -40,5 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <com.example.carapihelloworld.VehiclePropertyView
+            android:id="@+id/vendor_test_sys_prop_property_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </ScrollView>
