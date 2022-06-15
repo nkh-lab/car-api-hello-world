@@ -15,15 +15,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// For accessing vendor properties names (instead of using magic numbers)
+// AOSP:
+//      Add to Android.bp vehicle generated lib "vendor.nlab.vehicle-V1.0-java"
+//      - gen file: out/soong/.intermediates/vendor/nkh-lab/interfaces/vehicle/1.0/vendor.nlab.vehicle-V1.0-java_gen_java/gen/srcs/vendor/nlab/vehicle/V1_0/VehicleProperty.java
+// gradle:
+//      Add AOSP vehicle generated lib to project, e.g:
+//      - from: out/soong/.intermediates/vendor/nkh-lab/interfaces/automotive/vehicle/1.0/vendor.nlab.vehicle-V1.0-java/android_common/javac/vendor.nlab.vehicle-V1.0-java.jar
+//      - to: app/libs
+import vendor.nlab.vehicle.V1_0.VehicleProperty;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "CarApiHelloWorld";
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
-
-    // from out/soong/.intermediates/vendor/nkh-lab/interfaces/vehicle/1.0/vendor.nlab.vehicle-V1.0-java_gen_java/gen/srcs/vendor/nlab/vehicle/V1_0/VehicleProperty.java
-    public static final int VENDOR_TEST_1S_COUNTER = 557842433; /* (0x0001 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */
-    public static final int VENDOR_TEST_500MS_COUNTER = 557842434; /* (0x0002 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */
-    public static final int VENDOR_TEST_SYS_PROP = 557842435; /* (0x0003 | VehiclePropertyGroup:VENDOR | VehiclePropertyType:INT32 | VehicleArea:GLOBAL) */
 
     VehiclePropertyView mGearPropertyView;
     VehiclePropertyView mSpeedPropertyView;
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         mVendorTest1sCounterPropertyView = findViewById(R.id.vendor_test_1s_counter_property_view);
-        mVendorTest1sCounterPropertyView.setPropId(VENDOR_TEST_1S_COUNTER)
+        mVendorTest1sCounterPropertyView.setPropId(VehicleProperty.VENDOR_TEST_1S_COUNTER)
                 .setPropName("VENDOR_TEST_1S_COUNTER")
                 .enableSetValue(new VehiclePropertyView.SetValueCB() {
                     @Override
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "VENDOR_TEST_1S_COUNTER: onEdit(" + value_to_set + ")");
 
                         try {
-                            mCarPropertyManager.setIntProperty(VENDOR_TEST_1S_COUNTER, 0, Integer.parseInt(value_to_set));
+                            mCarPropertyManager.setIntProperty(VehicleProperty.VENDOR_TEST_1S_COUNTER, 0, Integer.parseInt(value_to_set));
                         } catch (SecurityException | IllegalArgumentException e) {
                             Log.e(TAG, "VENDOR_TEST_1S_COUNTER: setIntProperty(), Exception: " + e.getMessage());
                         }
@@ -134,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         mVendorTest500msCounterPropertyView = findViewById(R.id.vendor_test_500ms_counter_property_view);
-        mVendorTest500msCounterPropertyView.setPropId(VENDOR_TEST_500MS_COUNTER)
+        mVendorTest500msCounterPropertyView.setPropId(VehicleProperty.VENDOR_TEST_500MS_COUNTER)
                 .setPropName("VENDOR_TEST_500MS_COUNTER")
                 .enableSetValue(new VehiclePropertyView.SetValueCB() {
                     @Override
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "VENDOR_TEST_500MS_COUNTER: onEdit(" + value_to_set + ")");
 
                         try {
-                            mCarPropertyManager.setIntProperty(VENDOR_TEST_500MS_COUNTER, 0, Integer.parseInt(value_to_set));
+                            mCarPropertyManager.setIntProperty(VehicleProperty.VENDOR_TEST_500MS_COUNTER, 0, Integer.parseInt(value_to_set));
                         } catch (SecurityException | IllegalArgumentException e) {
                             Log.e(TAG, "VENDOR_TEST_500MS_COUNTER: setIntProperty(), Exception: " + e.getMessage());
                         }
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         mVendorTestSysPropPropertyView = findViewById(R.id.vendor_test_sys_prop_property_view);
-        mVendorTestSysPropPropertyView.setPropId(VENDOR_TEST_SYS_PROP)
+        mVendorTestSysPropPropertyView.setPropId(VehicleProperty.VENDOR_TEST_SYS_PROP)
                 .setPropName("VENDOR_TEST_SYS_PROP");
     }
 
@@ -163,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
         int gearSelection = mCarPropertyManager.getIntProperty(VehiclePropertyIds.GEAR_SELECTION, 0);
         Log.d(TAG, "GEAR_SELECTION: getIntProperty(" + VehiclePropertyIds.GEAR_SELECTION + ", 0)=" + gearSelection);
 
-        int vendorTestCounter = mCarPropertyManager.getIntProperty(VENDOR_TEST_1S_COUNTER, 0);
-        Log.d(TAG, "VENDOR_TEST_1S_COUNTER: getIntProperty(" + VENDOR_TEST_1S_COUNTER + ", 0)=" + vendorTestCounter);
+        int vendorTestCounter = mCarPropertyManager.getIntProperty(VehicleProperty.VENDOR_TEST_1S_COUNTER, 0);
+        Log.d(TAG, "VENDOR_TEST_1S_COUNTER: getIntProperty(" + VehicleProperty.VENDOR_TEST_1S_COUNTER + ", 0)=" + vendorTestCounter);
     }
 
     private void registerCarPropertyManagerCBs() {
@@ -232,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorEvent(int propId, int zone) {
                 Log.d(TAG, "VENDOR_TEST_1S_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
             }
-        }, VENDOR_TEST_1S_COUNTER, 100);
+        }, VehicleProperty.VENDOR_TEST_1S_COUNTER, 100);
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
@@ -245,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorEvent(int propId, int zone) {
                 Log.d(TAG, "VENDOR_TEST_500MS_COUNTER: onErrorEvent(" + propId + ", " + zone + ")");
             }
-        }, VENDOR_TEST_500MS_COUNTER, CarPropertyManager.SENSOR_RATE_NORMAL);
+        }, VehicleProperty.VENDOR_TEST_500MS_COUNTER, CarPropertyManager.SENSOR_RATE_NORMAL);
 
         mCarPropertyManager.registerCallback(new CarPropertyManager.CarPropertyEventCallback() {
             @Override
@@ -258,6 +263,6 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorEvent(int propId, int zone) {
                 Log.d(TAG, "VENDOR_TEST_SYS_PROP: onErrorEvent(" + propId + ", " + zone + ")");
             }
-        }, VENDOR_TEST_SYS_PROP, CarPropertyManager.SENSOR_RATE_ONCHANGE);
+        }, VehicleProperty.VENDOR_TEST_SYS_PROP, CarPropertyManager.SENSOR_RATE_ONCHANGE);
     }
 }

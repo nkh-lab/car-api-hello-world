@@ -9,6 +9,9 @@ android_app {
     static_libs: [
         "androidx.appcompat_appcompat",
         "androidx-constraintlayout_constraintlayout",
-        "android.car"
+        "android.car",
+        // For accessing vendor properties names (instead of using magic numbers)
+        // Remove it if not used and corresponding vendor properties logic in MainActivity.java
+        "vendor.nlab.vehicle-V1.0-java",
     ],   
 }
