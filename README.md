@@ -1,4 +1,4 @@
-# car-api-hello-world
+## Intro
 Android automotive CAR API usage example.
 
 The example is based on the use of `android.car.hardware.CarPropertyManager` and shows how to work with `SYSTEM` (speed, transfer, etc.) and `VENDOR` custom properties that belong to all possible permission protection levels:
@@ -11,9 +11,8 @@ Project support both [gradle](app/build.gradle) and [AOSP (Android.bp)](Android.
 ![](doc/screenshots/MainView-SetDialogue.png)
 
 
-## CAR API usage
-To use the CAR API, the following steps were taken:
-
+## How to use CAR API
+To use and test the CAR API, the following is done in the project:
 1. Add `android.car` library (to [gradle](app/build.gradle), to [Android.bp](Android.bp)).
 
 2. Add permissions to [AndroidManifest.xml](app/src/main/AndroidManifest.xml).
@@ -25,24 +24,23 @@ To use the CAR API, the following steps were taken:
     - getters: `getIntProperty()`
     - setters: `setBooleanProperty`
 
-## Emulator/AVD
-Tested on emulators:
-- `Polestar2` ([Useful link of how to set up `Polestar2` on Android Studio](https://stackoverflow.com/questions/57968790/android-automotive-emulator-no-system-images-installed-for-this-target/58159715#58159715))
-- AOSP `aosp_car_x86-userdebug` (android-12.0.0_r3)
-- [NCAR - Android Automotive Emulator Project](https://github.com/nkh-lab/aosp-ncar-manifest) - is used for testing `VENDOR` properties
+## Where to test app
+- [AOSP Android Automotive Emulator](https://source.android.com/setup/build/downloading) (e.g `aosp_car_x86-userdebug` product)
+- [NCAR - Android Automotive Project](https://github.com/nkh-lab/aosp-ncar-manifest) (is used for testing `VENDOR` properties supported by custom [VHAL](https://github.com/nkh-lab/aosp-ncar-vehicle-hal))
+- [Polestar2 Emulator](https://www.polestar.com/at/developer/get-started/)
 
 To change car speed, gear, location, etc. use `AVD Extended Controls`:
 
 ![](doc/screenshots/ExtendedControls-CarData.png)
 
-## How to run on AOSP
+## How to run app
 Start `CarApiHelloWorldApp` app via ADB ActivityManager:
 ```
 $ am start -n com.example.carapihelloworld/.MainActivity
 ```
-Or manually through the app list if it is part of the entire AOSP build (e.g. [NCAR - Android Automotive Emulator Project](https://github.com/nkh-lab/aosp-ncar-manifest))
+Or manually through the app list if it is part of the entire AOSP build (e.g. [NCAR - Android Automotive Project](https://github.com/nkh-lab/aosp-ncar-manifest))
 
-## Logcat output
+## Logcat output examples
 After compiling and running this project, the following `logcat` messages are expected:
 ```
 2022-02-14 17:29:18.154 4979-4979/com.example.carapihelloworld D/CarApiHelloWorld: Test CarPropertyManager getters:
